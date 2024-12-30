@@ -8,11 +8,12 @@ import EventItem from "./EventItem.jsx";
 
 export default function FindEventSection() {
   const searchElement = useRef();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState();
 
-  const { data, isPending, isError, error } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["events", { search: searchTerm }],
     queryFn: ({ signal }) => fetchEvents({ signal, searchTerm }),
+    enabled: searchTerm !== undefined
   });
 
   function handleSubmit(event) {
@@ -21,10 +22,10 @@ export default function FindEventSection() {
   }
 
   let content = <p>Please enter a search term and no find events.</p>;
-  if (isPending) content = <LoadingIndicator />;
+  if (isLoading) content = <LoadingIndicator />;
   if (isError) content = <ErrorBlock title="An error occurred" message={error.info.message || 'Failed to fetch!'} />;
   if (data) {
-    content = <ul className="events=list">
+    content = <ul className="events-list">
       {data.map(event => (
         <li key={event.id}>
           <EventItem event={event} />

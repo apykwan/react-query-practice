@@ -93,7 +93,7 @@ app.post('/events', async (req, res) => {
     return res.status(400).json({ message: 'Invalid data provided.' });
   }
 
-  const eventsFileContent = await fs.readFile('./backend/events.json');
+  const eventsFileContent = await fs.readFile('./backend/data/events.json');
   const events = JSON.parse(eventsFileContent);
 
   const newEvent = {

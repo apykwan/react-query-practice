@@ -194,6 +194,10 @@ ul {
   gap: 2rem;
 }
 
+.control {
+  cursor: pointer;
+}
+
 .form-actions {
   display: flex;
   justify-content: flex-end;

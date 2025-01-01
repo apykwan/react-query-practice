@@ -1,7 +1,4 @@
-import {
-  useQuery,
-
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import LoadingIndicator from "../UI/LoadingIndicator.jsx";
 import ErrorBlock from "../UI/ErrorBlock.jsx";

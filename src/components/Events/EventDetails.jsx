@@ -12,7 +12,12 @@ export default function EventDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { mutate } = useMutation({
+  const { 
+    mutate, 
+    isPending: isPendingDeletion,
+    isError: isErrorDeleting,
+    error: deleteError 
+  } = useMutation({
     mutationFn: deleteEvent,
     onSuccess: () => {
       queryClient.invalidateQueries({ 
@@ -85,13 +90,18 @@ export default function EventDetails() {
   return (
     <>
       {isDeleting && (
-        <Modal>
+        <Modal onClose={handleStopDelete}>
           <h2>Are you sure?</h2>
           <p>Do you really wan tto delete this event?</p>
-          <div className="form-actions">
-            <button onClick={handleStopDelete}>Cancel</button>
-            <button onClick={handleDelete}>Delete</button>
-          </div>
+          {isPendingDeletion ? (
+            <p>Deleting, Please wait...</p>
+          ): (
+            <div className="form-actions">
+              <button className="button-text" onClick={handleStopDelete}>Cancel</button>
+              <button className="button" onClick={handleDelete}>Delete</button>
+            </div>
+          )}
+          {isErrorDeleting && <ErrorBlock title="Fail to delete event" message={deleteError.info.message || 'Delete failed'}/>}
         </Modal>
       )}
       <Outlet />
